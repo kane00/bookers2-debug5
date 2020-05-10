@@ -2,8 +2,10 @@
 <div class="container">
     <div class="row">
     	<div class="col-xs-10">
-			<h2>Follow Users</h2>
+			<h2>Followers Users</h2>
 			<!-- indexをベースに -->
+			<% if @users.count > 0 %>
+			<!-- フォロワーがいれば -->
 			<table class="table">
 				<thead>
 					<tr>
@@ -26,23 +28,18 @@
 						<%= user.followings.count %></td>
 						<td>フォロワー数：
 						<%= user.followers.count %></td>
-						<td>
-							<!-- 表示ユーザが一致していない（別アカウント）ならボタンを表示する -->
-							<% if current_user != user %>
-								<% if current_user.following?(user) %>
-								<!-- フォローしているなら -->
-									<%= link_to 'フォロー外す', user_relationship_path(user), method: :delete %>
-								<% else %>
-								<!-- フォローしていないなら -->
-					            	<%= link_to 'フォローする', user_relationships_path(user), method: :POST %>
-					            <% end %>
-							<% end %>
-						</td>
+						<td><%= link_to relationships_path(user), method: :post do %>
+							フォローする
+							<% end %></td>
 						<td><%= link_to "Show", user, class: "user_#{user.id}" %></td>
 					</tr>
 					<% end %>
 				</tbody>
 			</table>
+			<% else %>
+			<!-- フォロワーがいなければ -->
+			  <p>ユーザーはいません</p>
+			<% end %>
 		</div>
 	</div>
 </div>
